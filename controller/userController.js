@@ -21,10 +21,11 @@ exports.post = (req, res) => {
     req.body.data_nascimento,
   ];
 
-  db.query(query, [values], (err) => {
+  db.query(query, [values], (err, results) => {
     if (err) return res.json(err);
 
-    return res.status(201).json("Usuário criado com sucesso!");
+    let id = results.insertId;
+    return res.status(201).json(id);
   });
 };
 
