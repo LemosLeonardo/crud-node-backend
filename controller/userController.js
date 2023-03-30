@@ -10,6 +10,16 @@ exports.get = (_, res) => {
   });
 };
 
+exports.getById = (req, res) => {
+  const query = "SELECT * FROM usuarios WHERE id = ?";
+
+  db.query(query, req.params.id, (err, data) => {
+    if (err) return res.json(err);
+
+    return res.status(200).json(data);
+  });
+};
+
 exports.post = (req, res) => {
   const query =
     "INSERT INTO usuarios (nome, email, telefone, data_nascimento) VALUES(?)";
@@ -21,10 +31,10 @@ exports.post = (req, res) => {
     req.body.data_nascimento,
   ];
 
-  db.query(query, [values], (err, results) => {
+  db.query(query, [values], (err, data) => {
     if (err) return res.json(err);
 
-    let id = results.insertId;
+    let id = { id: data.insertId };
     return res.status(201).json(id);
   });
 };
