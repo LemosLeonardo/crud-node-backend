@@ -11,12 +11,11 @@ exports.get = (_, res) => {
 };
 
 exports.getById = (req, res) => {
-  const query = "SELECT * FROM usuarios WHERE id = ?";
+  const query = "SELECT *, DATE_FORMAT (data_nascimento, '%Y-%m-%d') as data_nascimento FROM usuarios WHERE id = ?";
 
   db.query(query, req.params.id, (err, data) => {
     if (err) return res.json(err);
-
-    return res.status(200).json(data);
+    return res.status(200).json(data[0]);
   });
 };
 
